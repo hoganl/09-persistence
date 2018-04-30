@@ -39,11 +39,11 @@ storage.fetchOne = function fetchOne(schema, id) {
 storage.fetchAll = function fetchAll(schema) {
   if (!schema) return Promise.reject(new Error('expected schema name'));
 
-  return fs.readFileProm(`${__dirname}/../data/${schema}.json`)
+  return fs.readdirProm(`${__dirname}/../data/${schema}.json`)
     .then((data) => {
-      try {
-        const item = JSON.parse(data.toString());
-        return item;
+      try { 
+        const items = JSON.parse(data.toString());
+        return items;
       } catch (err) {
         return Promise.reject(err);
       }
@@ -53,14 +53,14 @@ storage.fetchAll = function fetchAll(schema) {
     });
 };
 
-storage.delete = function del(schema, id) {
+storage.delete = function remove(schema, id) {
   if (!schema) return Promise.reject(new Error('expected schema name'));
   if (!id) return Promise.reject(new Error('expected id'));
 
-  return fs.truncateProm(`${__dirname}/../data/${schema}/${id}.json`)
-    .then((data) => {
+  return fs.unlinkProm(`${__dirname}/../data/${schema}/${id}.json`)
+    .then(() => {
       try {
-        const item = JSON.parse(data.toString());
+        const item = { content: '' };
         return item;
       } catch (err) {
         return Promise.reject(err);
