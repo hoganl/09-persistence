@@ -53,12 +53,12 @@ module.exports = function routePanda(router) {
   router.delete('/api/v1/panda', (req, res) => {
     storage.delete('Panda', req.url.query.id)
       .then(() => {
-        response.sendText(res, 204, 'No content in the body');        
+        response.sendText(res, 204, 'No content in the body'); 
         return undefined;
       })
       .catch((err) => {
         logger.log(logger.ERROR, err, JSON.stringify(err));
-        response.sendText(res, 204, 'Resource not found');    
+        response.sendText(res, 404, 'Resource not found');    
         return undefined;
       });
     return undefined;
